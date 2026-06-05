@@ -1,0 +1,46 @@
+name: RTC Merge Reward
+description: Award RTC to contributors when pull requests are merged.
+author: tracepatch-lab
+
+branding:
+  icon: git-merge
+  color: green
+
+inputs:
+  github-token:
+    description: GitHub token used to read repo files and post PR comments.
+    required: false
+    default: ${{ github.token }}
+  node-url:
+    description: Base URL for the RustChain node.
+    required: false
+    default: https://50.28.86.131
+  payout-path:
+    description: HTTP path used for payouts. Override this if your node exposes a different admin route.
+    required: false
+    default: /wallet/transfer
+  amount:
+    description: RTC amount to award for a merged PR.
+    required: true
+  wallet-from:
+    description: Funding wallet or account name.
+    required: true
+  admin-key:
+    description: Secret admin key or bearer token for the payout endpoint.
+    required: false
+  wallet-file:
+    description: Repository file to read when the PR body does not include a wallet.
+    required: false
+    default: .rtc-wallet
+  dry-run:
+    description: If true, do not call the payout endpoint; only resolve the wallet and post the comment.
+    required: false
+    default: "true"
+  comment:
+    description: Post a PR comment with the payout result.
+    required: false
+    default: "true"
+
+runs:
+  using: node20
+  main: src/index.js
